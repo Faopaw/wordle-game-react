@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+const dark = {
+  backgroundColor: '#171717',
+  margin: 'none',
+  color: '#FAFAFA',
+  height: '100vh'
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <div style={dark}>
     <App />
+  </div>
   </React.StrictMode>
 );
 

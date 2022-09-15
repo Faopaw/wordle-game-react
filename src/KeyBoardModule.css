@@ -1,0 +1,41 @@
+.keyboardModule {
+    height: 200px;
+    margin: 0 8px;
+}
+
+.keyboardRow {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+
+    margin: 0 auto 8px;
+
+}
+
+.keyButton {
+    height: 43px;
+    width: 58px;
+font-family: inherit;
+font-weight: bold;
+border: 0;
+padding: 0;
+margin: 0 6px 0 0;
+height: 58px;
+border-radius: 4px;
+
+
+background-color: #818384;
+color: #ffffff;
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+text-transform: uppercase;
+}
+
+.keyButton:active {
+    background-color: #454546;
+}
