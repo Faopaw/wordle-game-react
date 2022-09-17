@@ -2,7 +2,7 @@ import "./BoardModule.css";
 
 function BoardModule(props) {
   const prevWords = props.props.prevWords;
-  const currentWord = props.props.currentWord;
+  const currentGuess = props.props.currentGuess;
   const emptyLines = props.props.emptyLines;
 
   return (
@@ -10,7 +10,7 @@ function BoardModule(props) {
       <div className="board">
         <PreviousGuesses prevWords={prevWords} />
 
-        <CurrentGuess currentWord={currentWord} />
+        <CurrentGuess currentGuess={currentGuess} />
 
         <EmptyLines emptyLines={emptyLines} />
       </div>
@@ -20,7 +20,13 @@ function BoardModule(props) {
 
 function PreviousGuesses(props) {
   const prevWordsArray = props.prevWords.previousGuesses;
-  console.log(prevWordsArray);
+  const arrayLength = prevWordsArray.length;
+  let GridStyle = {
+    display: "grid",
+    gridTemplateRows: `repeat(${arrayLength}, 1fr)`,
+    gridColumnGap: "10px",
+    gridRowGap: "10px"
+  }
 
   // Each time a row in the grid is created and the word is placed inside of it. that row itself  is also a grid with 1 row and 5 columns, one for each tile  which will contain 1 letter each.
   let prevWordRows = prevWordsArray.map((wordObj) => {
@@ -40,13 +46,31 @@ function PreviousGuesses(props) {
   });
 
   return (
-    <div className="parent" id="parent">
+    <div style={GridStyle} className="parent" id="parent">
       {prevWordRows}
     </div>
   );
 }
 
-function CurrentGuess() {}
+function CurrentGuess({currentGuess}) {
+  // const currentGuess = props.currentGuess.currentGuess;
+  const splitcurrentGuess = currentGuess.split("").map((letter) => {
+    return (
+      <div  className="tile">
+          {letter}
+        </div>
+    )
+    
+  })
+
+  return (
+    // <div className="parent">
+    <div className="row">
+        {splitcurrentGuess}
+    </div>
+    // </div>
+  )
+}
 
 function EmptyLines() {}
 

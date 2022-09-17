@@ -10,3 +10,46 @@
   align-items: center;
   justify-content: center;
 }
+
+.tileCorrectGreen {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-family: inherit;
+  color: inherit;
+  border: solid 3px rgb(0, 241, 12);
+  border-radius: 15%;
+}
+
+.tileAlmostCorrectYellow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-family: inherit;
+  color: inherit;
+  border: solid 3px rgb(245, 229, 15);
+  border-radius: 15%;
+}
+
+.tile {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-family: inherit;
+  color: inherit;
+  border: solid 3px gray;
+  border-radius: 15%;
+}
+
