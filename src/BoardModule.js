@@ -4,6 +4,7 @@ function BoardModule(props) {
   const prevWords = props.props.prevWords;
   const currentGuess = props.props.currentGuess;
   const emptyLines = props.props.emptyLines;
+  console.log();
 
   return (
     <div className="board-container">
@@ -25,24 +26,16 @@ function PreviousGuesses(props) {
     display: "grid",
     gridTemplateRows: `repeat(${arrayLength}, 1fr)`,
     gridColumnGap: "10px",
-    gridRowGap: "10px"
-  }
+    gridRowGap: "10px",
+  };
 
   // Each time a row in the grid is created and the word is placed inside of it. that row itself  is also a grid with 1 row and 5 columns, one for each tile  which will contain 1 letter each.
   let prevWordRows = prevWordsArray.map((wordObj) => {
     let splitWord = wordObj.word.split("").map((letter) => {
-      return (
-        <div  className="tile">
-          {letter}
-        </div>
-      );
+      return <div className="tile">{letter}</div>;
     });
 
-    return (
-      <div  className="row">
-        {splitWord}
-      </div>
-    );
+    return <div className="row">{splitWord}</div>;
   });
 
   return (
@@ -52,26 +45,43 @@ function PreviousGuesses(props) {
   );
 }
 
-function CurrentGuess({currentGuess}) {
+function CurrentGuess({ currentGuess }) {
   // const currentGuess = props.currentGuess.currentGuess;
   const splitcurrentGuess = currentGuess.split("").map((letter) => {
-    return (
-      <div  className="tile">
-          {letter}
-        </div>
-    )
-    
-  })
+    return <div className="tile">{letter}</div>;
+  });
 
   return (
     // <div className="parent">
-    <div className="row">
-        {splitcurrentGuess}
-    </div>
+    <div className="row">{splitcurrentGuess}</div>
     // </div>
-  )
+  );
 }
 
-function EmptyLines() {}
+function EmptyLines({emptyLines}) {
+  const emptyLinesNum = emptyLines;
+  const fakeWord = [" ", " ", " ", " ", " "];
+  const emptyRows = [];
+  let GridStyle = {
+    display: "grid",
+    gridTemplateRows: `repeat(${1}, 1fr)`,
+    gridColumnGap: "10px",
+    gridRowGap: "10px",
+  };
+  const splitfakeWord = fakeWord.map((letter) => {
+    return <div className="tile">{letter}</div>;
+  });
+  for (let i = 0; i < emptyLinesNum; i++) {
+    emptyRows.push(splitfakeWord);
+  }
+
+  return (
+    <div style={GridStyle} className="parent" id="parent">
+    <div className="row">
+        {emptyRows}
+    </div> 
+    </div>
+  );
+}
 
 export default BoardModule;

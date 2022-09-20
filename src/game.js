@@ -6,6 +6,7 @@ import gameStyle from "./game.css";
 import tileAlmostCorrectYellow from "./game.css";
 import tileCorrectGreen from "./game.css";
 import tile from "./game.css";
+import row from "./game.css";
 
 function Game() {
   const WORDLE_DICTIONARY = [
@@ -30,37 +31,45 @@ function Game() {
     // { id: 1, word: "STATE" },
     // { id: 2, word: "GRATE" },
   ]);
+  const [emptyLines, setemptyLines] = useState(5)
+  // there are 5 empty lines by initially as the top line will be used for currentGuess.
+  let GridStyle = {
+    display: "grid",
+    gridTemplateRows: `repeat(${previousGuesses.length}, 1fr)`,
+    gridColumnGap: "10px",
+    gridRowGap: "10px"
+  }
 
   useEffect(() => {
-    const colouredpreviousGuesses = previousGuesses.map(({word}) => {
-      console.log(word);
-      const colouredWord = word.split("").map((letter) => {
-        if(currentAnswer.indexOf(letter) !== -1) {
-          return (
-            <div style={tileAlmostCorrectYellow}>
-              {letter}
-            </div>
-          )
-        } else 
-        return (
-          <div>
-            {letter}
-          </div>
-        )
-      })
-      return (
-        <div></div>
-      )
-    })
-    
 
-  }, [previousGuesses])
+    setemptyLines(5 - previousGuesses.length);
+    // const colouredpreviousGuesses = previousGuesses.map(({ word }) => {
+    //   // console.log(word);
+    //   const colouredWord = word.split("").map((letter) => {
+    //     if (currentAnswer.indexOf(letter) !== -1) {
+    //       return <div style={tileAlmostCorrectYellow}>{letter}</div>;
+    //     } else {
+    //       return <div style={tile}>{letter}</div>;
+    //     }
+    //   });
+    //   return (
+    //     <div style={row}>
+    //       {colouredWord}
+    //     </div>
+    //     );
+    // });
+    // return (
+    //   <div style={GridStyle}>
+    //     {colouredpreviousGuesses}
+    //   </div>
+    // )
+  }, [previousGuesses]);
 
   useEffect(() => {
     setAnswer(selectWord());
-  },[])
+  }, []);
 
-  const emptyLines = ["", "", ""];
+ 
 
   function selectWord() {
     const num = Math.floor(Math.random() * WORDLE_DICTIONARY.length);
@@ -73,11 +82,12 @@ function Game() {
   function resetGame() {
     setAnswer(() => selectWord());
     setPreviousGuesses([]);
+    setRound(1)
   }
 
   const addLetter = (letter) => {
     if (currentGuess.length < 5) {
-      setGuess((currentGuess + letter));
+      setGuess(currentGuess + letter);
       // console.log(currentGuess);
     }
   };
@@ -88,23 +98,22 @@ function Game() {
 
   const submitCurrentGuess = () => {
     if (currentGuess.length === 5) {
-      if(WORDLE_DICTIONARY.includes(currentGuess)) {
+      if (WORDLE_DICTIONARY.includes(currentGuess)) {
         const newId = previousGuesses.length + 1;
-      console.log(newId);
-      setPreviousGuesses((previousGuesses) => [
-        ...previousGuesses,
-        { id: newId, word: currentGuess },
-      ]);
-      comparetoAnswer(currentGuess);
-      setGuess("");
-      setRound(currentRound + 1);
-      if (currentRound === 5) {
-        alert(`Game over!  The Answer Was : ${currentAnswer}`)
-      }
+        // console.log(newId);
+        setPreviousGuesses((previousGuesses) => [
+          ...previousGuesses,
+          { id: newId, word: currentGuess },
+        ]);
+        comparetoAnswer(currentGuess);
+        setGuess("");
+        setRound(currentRound + 1);
+        if (currentRound === 6) {
+          alert(`Game over!  The Answer Was : ${currentAnswer}`);
+        }
       } else {
-        alert("The word is not in the dictionary mate. try again.")
+        alert("The word is not in the dictionary mate. try again.");
       }
-      
     } else {
       alert("The needs to be 5 characters in length. Not more, not less.");
     }
@@ -113,14 +122,16 @@ function Game() {
   const comparetoAnswer = (currentGuess) => {
     if (currentGuess === currentAnswer) {
       console.log("You win!");
-    } else {console.log("That was chance Number " + currentRound);}
+    } else {
+      console.log("That was chance Number " + currentRound);
+    }
   };
 
   let props = {
     currentAnswer: currentAnswer,
     prevWords: { previousGuesses },
-    currentGuess:  currentGuess ,
-    emptyLines: { emptyLines },
+    currentGuess: currentGuess,
+    emptyLines:  emptyLines ,
   };
 
   let keyboardProps = {
