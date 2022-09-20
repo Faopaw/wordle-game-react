@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import BoardModule from "./BoardModule";
 import KeyboardModule from "./KeyboardModule";
-// import Score from "./Score";
 import gameStyle from "./game.css";
 import tileAlmostCorrectYellow from "./game.css";
 import tileCorrectGreen from "./game.css";
@@ -28,8 +27,9 @@ function Game() {
   const [currentAnswer, setAnswer] = useState();
   const [currentGuess, setGuess] = useState("");
   const [previousGuesses, setPreviousGuesses] = useState([
-    // { id: 1, word: "STATE" },
-    // { id: 2, word: "GRATE" },
+  
+
+
   ]);
   const [emptyLines, setemptyLines] = useState(5)
 
@@ -41,6 +41,11 @@ function Game() {
   useEffect(() => {
     setAnswer(selectWord());
   }, []);
+
+ 
+  let timerStart = Date.now();
+
+ 
 
  
 
@@ -82,7 +87,8 @@ function Game() {
         setGuess("");
         setRound(currentRound + 1);
         if (currentRound === 6) {
-          alert(`Game over!  The Answer Was : ${currentAnswer}`);
+          let timerEnd = Date.now();
+          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${timerEnd - timerStart} ms`);
         }
       } else {
         alert("The word is not in the dictionary mate. try again.");
@@ -94,7 +100,9 @@ function Game() {
 
   const comparetoAnswer = (currentGuess) => {
     if (currentGuess === currentAnswer) {
-      console.log("You win!");
+      let timerEnd = Date.now();
+      console.log(`You win! Time Elapsed: ${timerEnd - timerStart} ms`);
+      alert(`You win! Time Elapsed: ${timerEnd - timerStart} ms`);
     } else {
       console.log("That was chance Number " + currentRound);
     }
