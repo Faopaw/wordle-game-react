@@ -4,12 +4,16 @@ function BoardModule(props) {
   const prevWords = props.props.prevWords;
   const currentGuess = props.props.currentGuess;
   const emptyLines = props.props.emptyLines;
-  console.log();
+  const currentAnswer = props.props.currentAnswer;
+  const extraprops = {
+    prevWords : prevWords,
+    currentAnswer : currentAnswer
+  }
 
   return (
     <div className="board-container">
       <div className="board">
-        <PreviousGuesses prevWords={prevWords} />
+        <PreviousGuesses props={extraprops} />
 
         <CurrentGuess currentGuess={currentGuess} />
 
@@ -20,7 +24,8 @@ function BoardModule(props) {
 }
 
 function PreviousGuesses(props) {
-  const prevWordsArray = props.prevWords.previousGuesses;
+  const prevWordsArray = props.props.prevWords.previousGuesses;
+  const currentAnswer = props.props.currentAnswer;
   const arrayLength = prevWordsArray.length;
   let GridStyle = {
     display: "grid",
@@ -32,7 +37,19 @@ function PreviousGuesses(props) {
   // Each time a row in the grid is created and the word is placed inside of it. that row itself  is also a grid with 1 row and 5 columns, one for each tile  which will contain 1 letter each.
   let prevWordRows = prevWordsArray.map((wordObj) => {
     let splitWord = wordObj.word.split("").map((letter) => {
-      return <div className="tile">{letter}</div>;
+      const regEx = new RegExp(letter);
+      const letterIndex = wordObj.word.indexOf(letter);
+      if (regEx.test(currentAnswer)) {
+        if (letter === currentAnswer.charAt(letterIndex)) {
+          return <div className="tileCorrectGreen">{letter}</div>;
+        } else {
+          return <div className="tileAlmostCorrectYellow">{letter}</div>;
+        }
+        
+      } else {
+        return <div className="tile">{letter}</div>;
+      }
+      
     });
 
     return <div className="row">{splitWord}</div>;

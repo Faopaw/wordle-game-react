@@ -88,7 +88,7 @@ function Game() {
         setRound(currentRound + 1);
         if (currentRound === 6) {
           let timerEnd = Date.now();
-          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${timerEnd - timerStart} ms`);
+          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
         }
       } else {
         alert("The word is not in the dictionary mate. try again.");
@@ -101,8 +101,8 @@ function Game() {
   const comparetoAnswer = (currentGuess) => {
     if (currentGuess === currentAnswer) {
       let timerEnd = Date.now();
-      console.log(`You win! Time Elapsed: ${timerEnd - timerStart} ms`);
-      alert(`You win! Time Elapsed: ${timerEnd - timerStart} ms`);
+      console.log(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+      alert(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
     } else {
       console.log("That was chance Number " + currentRound);
     }
