@@ -32,37 +32,10 @@ function Game() {
     // { id: 2, word: "GRATE" },
   ]);
   const [emptyLines, setemptyLines] = useState(5)
-  // there are 5 empty lines by initially as the top line will be used for currentGuess.
-  let GridStyle = {
-    display: "grid",
-    gridTemplateRows: `repeat(${previousGuesses.length}, 1fr)`,
-    gridColumnGap: "10px",
-    gridRowGap: "10px"
-  }
 
   useEffect(() => {
 
     setemptyLines(5 - previousGuesses.length);
-    // const colouredpreviousGuesses = previousGuesses.map(({ word }) => {
-    //   // console.log(word);
-    //   const colouredWord = word.split("").map((letter) => {
-    //     if (currentAnswer.indexOf(letter) !== -1) {
-    //       return <div style={tileAlmostCorrectYellow}>{letter}</div>;
-    //     } else {
-    //       return <div style={tile}>{letter}</div>;
-    //     }
-    //   });
-    //   return (
-    //     <div style={row}>
-    //       {colouredWord}
-    //     </div>
-    //     );
-    // });
-    // return (
-    //   <div style={GridStyle}>
-    //     {colouredpreviousGuesses}
-    //   </div>
-    // )
   }, [previousGuesses]);
 
   useEffect(() => {
