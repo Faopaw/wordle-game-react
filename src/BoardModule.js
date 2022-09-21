@@ -1,4 +1,5 @@
 import "./BoardModule.css";
+import "animate.css";
 
 function BoardModule(props) {
   const prevWords = props.props.prevWords;
@@ -6,9 +7,9 @@ function BoardModule(props) {
   const emptyLines = props.props.emptyLines;
   const currentAnswer = props.props.currentAnswer;
   const extraprops = {
-    prevWords : prevWords,
-    currentAnswer : currentAnswer
-  }
+    prevWords: prevWords,
+    currentAnswer: currentAnswer,
+  };
 
   return (
     <div className="board-container">
@@ -41,15 +42,13 @@ function PreviousGuesses(props) {
       const letterIndex = wordObj.word.indexOf(letter);
       if (regEx.test(currentAnswer)) {
         if (letter === currentAnswer.charAt(letterIndex)) {
-          return <div className="tileCorrectGreen">{letter}</div>;
+          return <div className="tileCorrectGreen animate__animated animate__bounceIn animate__delay-0.3s">{letter}</div>;
         } else {
-          return <div className="tileAlmostCorrectYellow">{letter}</div>;
+          return <div className="tileAlmostCorrectYellow animate__animated animate__bounceIn animate__delay-0.3s">{letter}</div>;
         }
-        
       } else {
-        return <div className="tile">{letter}</div>;
+        return <div className="tile animate__animated animate__bounceIn animate__delay-0.3s">{letter}</div>;
       }
-      
     });
 
     return <div className="row">{splitWord}</div>;
@@ -65,7 +64,7 @@ function PreviousGuesses(props) {
 function CurrentGuess({ currentGuess }) {
   // const currentGuess = props.currentGuess.currentGuess;
   const splitcurrentGuess = currentGuess.split("").map((letter) => {
-    return <div className="tile">{letter}</div>;
+    return <div className="tile animate__animated animate__bounceIn ">{letter}</div>;
   });
 
   return (
@@ -75,7 +74,7 @@ function CurrentGuess({ currentGuess }) {
   );
 }
 
-function EmptyLines({emptyLines}) {
+function EmptyLines({ emptyLines }) {
   const emptyLinesNum = emptyLines;
   const fakeWord = [" ", " ", " ", " ", " "];
   const emptyRows = [];
@@ -94,9 +93,7 @@ function EmptyLines({emptyLines}) {
 
   return (
     <div style={GridStyle} className="parent" id="parent">
-    <div className="row">
-        {emptyRows}
-    </div> 
+      <div className="row">{emptyRows}</div>
     </div>
   );
 }
