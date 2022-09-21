@@ -26,6 +26,7 @@ function Game() {
   const [currentRound, setRound] = useState(1);
   const [currentAnswer, setAnswer] = useState();
   const [currentGuess, setGuess] = useState("");
+  const [hasWon, sethasWon] = useState(false)
   const [previousGuesses, setPreviousGuesses] = useState([
   
 
@@ -60,7 +61,8 @@ function Game() {
   function resetGame() {
     setAnswer(() => selectWord());
     setPreviousGuesses([]);
-    setRound(1)
+    setRound(1);
+    sethasWon(false);
   }
 
   const addLetter = (letter) => {
@@ -83,12 +85,12 @@ function Game() {
           ...previousGuesses,
           { id: newId, word: currentGuess },
         ]);
-        comparetoAnswer(currentGuess);
+        const hasWon = comparetoAnswer(currentGuess);
         setGuess("");
         setRound(currentRound + 1);
-        if (currentRound === 6) {
+        if ((currentRound === 6) && (hasWon === false)) {
           let timerEnd = Date.now();
-          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`); // BUG ON THIS LINE. FIRES WHEN CORRECT GUESS IS MADE ON LAST ATTEMPT.
         }
       } else {
         alert("The word is not in the dictionary mate. try again.");
@@ -100,9 +102,11 @@ function Game() {
 
   const comparetoAnswer = (currentGuess) => {
     if (currentGuess === currentAnswer) {
+      sethasWon(true);
       let timerEnd = Date.now();
       console.log(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
       alert(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+      return hasWon === true;
     } else {
       console.log("That was chance Number " + currentRound);
     }
