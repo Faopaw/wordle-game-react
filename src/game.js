@@ -6,8 +6,11 @@ import tileAlmostCorrectYellow from "./game.css";
 import tileCorrectGreen from "./game.css";
 import tile from "./game.css";
 import row from "./game.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Game() {
+  let timerStart = Date.now();
   const WORDLE_DICTIONARY = [
     "APPLE",
     "ABOUT",
@@ -28,11 +31,40 @@ function Game() {
   const [currentGuess, setGuess] = useState("");
   const [hasWon, sethasWon] = useState(false)
   const [previousGuesses, setPreviousGuesses] = useState([
-  
-
-
   ]);
-  const [emptyLines, setemptyLines] = useState(5)
+  const [emptyLines, setemptyLines] = useState(5);
+  const successOptions =  {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    };
+
+  const errorOptions = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    };
+  const notifySuccess = (word) => {
+    let timerEnd = Date.now();
+    toast.success(`Answer : ${word}`,successOptions);
+    toast.success(`Time Elapsed : ${(timerEnd - timerStart) / 100} seconds`, successOptions);
+    console.log(`Success. Answer: ${word}`);
+  }
+
+  const notifyFailure = (word) => {
+    let timerEnd = Date.now();
+    toast.error(`Answer : ${word}`,errorOptions);
+    toast.error(`Time Elapsed : ${(timerEnd - timerStart) / 100} seconds`,errorOptions);
+    console.log(`Failure. Answer: ${word}`);
+  }
 
   useEffect(() => {
 
@@ -42,12 +74,6 @@ function Game() {
   useEffect(() => {
     setAnswer(selectWord());
   }, []);
-
- 
-  let timerStart = Date.now();
-
- 
-
  
 
   function selectWord() {
@@ -58,11 +84,15 @@ function Game() {
     return newAnswer;
   }
 
-  function resetGame() {
+  async function resetGame() {
     setAnswer(() => selectWord());
+    
     setPreviousGuesses([]);
+    
     setRound(1);
+    
     sethasWon(false);
+    
   }
 
   const addLetter = (letter) => {
@@ -88,9 +118,17 @@ function Game() {
         const hasWon = comparetoAnswer(currentGuess);
         setGuess("");
         setRound(currentRound + 1);
+        if (hasWon === true) {
+          // displayToasts(currentAnswer);
+          return resetGame() }
         if ((currentRound === 6) && (hasWon === false)) {
-          let timerEnd = Date.now();
-          alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`); // BUG ON THIS LINE. FIRES WHEN CORRECT GUESS IS MADE ON LAST ATTEMPT.
+          // let timerEnd = Date.now();
+          // alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+          notifyFailure(currentAnswer);
+        } else if (currentRound === 6) {
+          // let timerEnd = Date.now();
+          // alert(`Game over!  The Answer Was : ${currentAnswer}. Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+          notifyFailure(currentAnswer);
         }
       } else {
         alert("The word is not in the dictionary mate. try again.");
@@ -105,10 +143,12 @@ function Game() {
       sethasWon(true);
       let timerEnd = Date.now();
       console.log(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
-      alert(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
-      return hasWon === true;
+      notifySuccess(currentAnswer);
+      // alert(`You win! Time Elapsed: ${(timerEnd - timerStart) / 100} seconds`);
+      return sethasWon(true);
     } else {
       console.log("That was chance Number " + currentRound);
+      return sethasWon(false);
     }
   };
 
@@ -123,6 +163,7 @@ function Game() {
     addLetter: addLetter,
     submitCurrentGuess: submitCurrentGuess,
     removeLetter: removeLetter,
+    hasWon : hasWon
   };
 
   return (
@@ -131,6 +172,17 @@ function Game() {
       <KeyboardModule keyboardProps={keyboardProps} />
       {/* <Score />  */}
       <button onClick={resetGame}>Reset!</button>
+      <ToastContainer 
+        position="top-right"
+  autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+      />
     </div>
   );
 }
